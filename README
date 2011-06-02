@@ -1,2 +1,55 @@
-dracinsert: Command line utility to add ip addrs to drac.
+			dracinsert
+
+DRAC is a daemon that dynamically updates a relay authorization map for sendmail. 
+For more info, see the homepage:  http://mail.cc.umanitoba.ca/drac/
+
+dracinsert is a command line utility to add ip addrs to the DRAC daemon.
+
+usage:  dracinsert ([-h] | [-s drac_server] xx.xx.xx.xx [...])
+
+
+NEED / BACKGROUND
+-----------------
+
+I wrote this utility a few years ago to deal with the issue of relaying email for
+clients on dynamic addrs around the internet (nationwide dialup providers in this
+case).  It's a little better than POP-before-SMTP, as implemented it was "dialup-
+before-smtp".  I added a FreeRadius hook to call dracinsert whenever a user logged
+in, and the mail server was configured to use DRAC to permit relaying.
+
+I'll note, this was a poor solution to this issue, so don't do it.  Use SMTP
+authentication instead.  But that said, dracinsert may be useful for other
+scenarios, too.
+
+FreeRadius
+----------
+
+This was on a freeradius 1.1.3 setup, exceprts from radiusd.conf:
+
+modules {
+	# .. snip ..
+	exec dracinsert {
+		wait = yes
+		output = none
+		program = "/usr/local/sbin/dracinsert %{Framed-IP-Address}"
+	}
+	# .. snip ..
+}
+
+instantiate {
+	# .. snip ..
+	dracinsert
+}
+
+accounting {
+	dracinsert
+	# .. snip ..
+}
+
+
+SOURCE
+------
+
+Get latest (and currently only) version at:
+	https://github.com/jnorell/dracinsert
 
