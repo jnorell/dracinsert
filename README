@@ -24,7 +24,7 @@ scenarios, too.
 FreeRadius
 ----------
 
-This was on a freeradius 1.1.3 setup, exceprts from radiusd.conf:
+This was on a freeradius 1.1.3 setup, excerpts from radiusd.conf:
 
 modules {
 	# .. snip ..
